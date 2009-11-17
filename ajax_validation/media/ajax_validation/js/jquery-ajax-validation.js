@@ -30,11 +30,11 @@
                     },
                     success: function(data, textStatus) {
                         status = data.valid;
-                        if (!status)    {
-                            if (settings.callback)  {
-                                settings.callback(data, form);
-                            }
-                            else    {
+                        if (settings.callback)  {
+                            settings.callback(data, form);
+                        }
+                        else    {
+                            if (!status)    {
                                 var get_form_error_position = function(key) {
                                     key = key || '__all__';
                                     if (key == '__all__') {

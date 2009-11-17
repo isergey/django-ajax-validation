@@ -16,6 +16,8 @@ def validate(request, *args, **kwargs):
     form = form_class(**defaults)
     if form.is_valid():
         data = {
+            'errors': {},
+            'fields': request.POST.getlist('fields'),
             'valid': True,
         }
     else:
@@ -48,6 +50,7 @@ def validate(request, *args, **kwargs):
                 html_id = formfields[key].field.widget.id_for_label(html_id)
                 final_errors[html_id] = val
         data = {
+            'fields': request.POST.getlist('fields'),
             'valid': False or not final_errors,
             'errors': final_errors,
         }
