@@ -9,8 +9,7 @@
             callback: false,
             fields: false,
             dom: this,
-            event: 'submit',
-            submitHandler: null
+            event: 'submit'
         }, settings);
 
         return this.each(function() {
@@ -22,7 +21,6 @@
                     data += '&' + $.param({fields: settings.fields});
                 }
                 $.ajax({
-                    async: false,
                     data: data,
                     dataType: 'json',
                     error: function(XHR, textStatus, errorThrown)   {
@@ -91,10 +89,6 @@
                     type: 'POST',
                     url: url
                 });
-                if (status && settings.submitHandler) {
-                    return settings.submitHandler.apply(this);
-                }
-                return status;
             });
         });
     };
