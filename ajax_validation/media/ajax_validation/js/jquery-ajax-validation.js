@@ -51,7 +51,7 @@
                                     else {
                                         $('#' + val).parent().find('ul.errorlist').remove();
                                     }
-                                }
+                                });
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         var error = get_form_error_position(key);
@@ -72,7 +72,7 @@
                                     else {
                                         $('#' + val).parent().find('ul.errorlist').remove();
                                     }
-                                }
+                                });
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         get_form_error_position(key).parent().before('<tr><td colspan="2"><ul class="errorlist"><li>' + val + '.</li></ul></td></tr>');
@@ -92,7 +92,7 @@
                                     else {
                                         $('#' + val).parent().find('ul.errorlist').remove();
                                     }
-                                }
+                                });
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         get_form_error_position(key).before('<li><ul class="errorlist"><li>' + val + '</li></ul></li>');
