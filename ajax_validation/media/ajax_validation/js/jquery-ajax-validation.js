@@ -97,7 +97,7 @@ jQuery.ajaxSettings.traditional = true;
                                         get_form_error_position(key).before('<div id="errorMsg"><p>' + val + '</p></div>');
                                     }
                                     else {
-                                        $('[name=' + key + ']').prev().before('<p class="errorField">' + val + '</p>');
+                                        $('[name=' + key + ']').after('<p class="errorField">' + val + '</p>');
                                         $('[name=' + key + ']').parent('.ctrlHolder').addClass('error');
                                     }
                                 });
