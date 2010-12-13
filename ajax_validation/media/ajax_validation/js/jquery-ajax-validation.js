@@ -1,3 +1,4 @@
+jQuery.ajaxSettings.traditional = true;
 (function($) {
     function inputs(form)   {
         return form.find(":input:visible:not(:button)");
@@ -28,7 +29,7 @@
                     },
                     success: function(data, textStatus) {
                         status = data.valid;
-                        if (settings.callback)  {
+                        if (settings.callback) {
                             settings.callback(data, form);
                         }
                         else {
@@ -42,63 +43,43 @@
                                 return inputs(form).filter(filter).parent();
                             };
                             if (settings.type == 'p') {
-                                $.each(data.fields, function(key, val) {
-                                    if (val.indexOf('__all__') >= 0) {
-                                        var error = get_form_error_position(val).prev();
-                                        if (error.is('ul.errorlist'))
-                                            error.remove();
-                                    }
-                                    else {
-                                        $('#' + val).parent().find('ul.errorlist').remove();
-                                    }
-                                });
+                                form.find('ul.errorlist').remove();
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         var error = get_form_error_position(key);
-                                        error.before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        if (error.prev().is('ul.errorlist')) {
+                                            error.prev().before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        }
+                                        else {
+                                            error.before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        }
                                     }
                                     else {
-                                        $('#' + key).parent().before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        $('[name=' + key + ']').parent().before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
                             if (settings.type == 'table') {
-                                $.each(data.fields, function(key, val) {
-                                    if (val.indexOf('__all__') >= 0) {
-                                        var error = get_form_error_position(val).parent().prev();
-                                        if (error.is('tr'))
-                                            error.remove();
-                                    }
-                                    else {
-                                        $('#' + val).parent().find('ul.errorlist').remove();
-                                    }
-                                });
+                                inputs(form).prev('ul.errorlist').remove();
+                                form.find('tr:has(ul.errorlist)').remove();
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         get_form_error_position(key).parent().before('<tr><td colspan="2"><ul class="errorlist"><li>' + val + '.</li></ul></td></tr>');
                                     }
                                     else {
-                                        $('#' + key).before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        $('[name=' + key + ']').before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
                             if (settings.type == 'ul') {
-                                $.each(data.fields, function(key, val) {
-                                    if (val.indexOf('__all__') >= 0) {
-                                        var error = get_form_error_position(val).parent().prev();
-                                        if (error.find('ul.errorlist').length)
-                                            error.remove();
-                                    }
-                                    else {
-                                        $('#' + val).parent().find('ul.errorlist').remove();
-                                    }
-                                });
+                                inputs(form).prev().prev('ul.errorlist').remove();
+                                form.find('li:has(ul.errorlist)').remove();
                                 $.each(data.errors, function(key, val) {
                                     if (key.indexOf('__all__') >= 0) {
                                         get_form_error_position(key).before('<li><ul class="errorlist"><li>' + val + '</li></ul></li>');
                                     }
                                     else {
-                                        $('#' + key).prev().before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        $('[name=' + key + ']').prev().before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
@@ -108,7 +89,7 @@
                                         $(form).find('#errorMsg').remove();
                                     }
                                     else {
-                                        $('#' + val).parent('.ctrlHolder').removeClass('error').find('p.errorField').remove();
+                                        $('[name=' + val + ']').parent('.ctrlHolder').removeClass('error').find('p.errorField').remove();
                                     }
                                 });
                                 $.each(data.errors, function(key, val) {
@@ -116,8 +97,8 @@
                                         get_form_error_position(key).before('<div id="errorMsg"><p>' + val + '</p></div>');
                                     }
                                     else {
-                                        $('#' + key).prev().before('<p class="errorField">' + val + '</p>');
-                                        $('#' + key).parent('.ctrlHolder').addClass('error');
+                                        $('[name=' + key + ']').prev().before('<p class="errorField">' + val + '</p>');
+                                        $('[name=' + key + ']').parent('.ctrlHolder').addClass('error');
                                     }
                                 });
                             }
