@@ -33,6 +33,10 @@ jQuery.ajaxSettings.traditional = true;
                             settings.callback(data, form);
                         }
                         else {
+                            function getWidget(fieldName) {
+                                var widget = $('[name=' + fieldName + ']');
+                                return widget.parent('label').length ? widget.parent('label') : widget;
+                            }
                             var get_form_error_position = function(key) {
                                 key = key || '__all__';
                                 if (key == '__all__') {
@@ -55,7 +59,8 @@ jQuery.ajaxSettings.traditional = true;
                                         }
                                     }
                                     else {
-                                        $('[name=' + key + ']').parent().before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        var widget = getWidget(key);
+                                        widget.parent().before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
@@ -67,7 +72,8 @@ jQuery.ajaxSettings.traditional = true;
                                         get_form_error_position(key).parent().before('<tr><td colspan="2"><ul class="errorlist"><li>' + val + '.</li></ul></td></tr>');
                                     }
                                     else {
-                                        $('[name=' + key + ']').before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        var widget = getWidget(key);
+                                        widget.before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
@@ -79,7 +85,8 @@ jQuery.ajaxSettings.traditional = true;
                                         get_form_error_position(key).before('<li><ul class="errorlist"><li>' + val + '</li></ul></li>');
                                     }
                                     else {
-                                        $('[name=' + key + ']').prev().before('<ul class="errorlist"><li>' + val + '</li></ul>');
+                                        var widget = getWidget(key);
+                                        widget.prev().before('<ul class="errorlist"><li>' + val + '</li></ul>');
                                     }
                                 });
                             }
@@ -89,7 +96,8 @@ jQuery.ajaxSettings.traditional = true;
                                         $(form).find('#errorMsg').remove();
                                     }
                                     else {
-                                        $('[name=' + val + ']').parent('.ctrlHolder').removeClass('error').find('p.errorField').remove();
+                                        var widget = getWidget(val);
+                                        widget.parent('.ctrlHolder').removeClass('error').find('p.errorField').remove();
                                     }
                                 });
                                 $.each(data.errors, function(key, val) {
@@ -97,8 +105,9 @@ jQuery.ajaxSettings.traditional = true;
                                         get_form_error_position(key).before('<div id="errorMsg"><p>' + val + '</p></div>');
                                     }
                                     else {
-                                        $('[name=' + key + ']').after('<p class="errorField">' + val + '</p>');
-                                        $('[name=' + key + ']').parent('.ctrlHolder').addClass('error');
+                                        var widget = getWidget(key);
+                                        widget.after('<p class="errorField">' + val + '</p>');
+                                        widget.parent('.ctrlHolder').addClass('error');
                                     }
                                 });
                             }

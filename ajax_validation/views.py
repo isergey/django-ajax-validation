@@ -40,9 +40,11 @@ def validate(request, *args, **kwargs):
         if request.POST.getlist('fields'):
             fields = request.POST.getlist('fields') + ['__all__']
             errors = dict([(key, val) for key, val in errors.iteritems() if key in fields])
+        else:
+            fields = []
 
         data = {
-            'fields': request.POST.getlist('fields'),
+            'fields': fields,
             'valid': not errors,
             'errors': errors,
         }
